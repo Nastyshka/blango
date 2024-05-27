@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 import os
+from configurations import Configuration
+from configurations import values
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -41,13 +44,13 @@ SESSION_COOKIE_SAMESITE = 'None'
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
-    'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'blog',
+    'django.contrib.contenttypes',
     'crispy_forms',
-    'crispy_bootstrap5'
+    'crispy_bootstrap5',
+    'blog'
 ]
 
 MIDDLEWARE = [
@@ -84,13 +87,14 @@ WSGI_APPLICATION = 'blango.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
+DATABASES = values.DatabaseURLValue(f"sqlite:///{BASE_DIR}/db.sqlite3")
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -116,7 +120,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = values.Value("UTC")
 
 USE_I18N = True
 
@@ -137,3 +141,18 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CRISPY_ALLOWED_TEMPLATE_PACKS= "bootstrap5"
 CRISPY_TEMPLATE_PACK= "bootstrap5"
+
+class Dev(Configuration):
+    # Build paths inside the project like this: BASE_DIR / 'subdir'.
+    BASE_DIR = Path(__file__).resolve().parent.parent
+
+    # Quick-start development settings - unsuitable for production
+    # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
+
+    # SECURITY WARNING: keep the secret key used in production secret!
+    SECRET_KEY = "django-insecure-ym=d)ft4%)xiukqr&tgstl6i2091+x_#&o%*%n6g^epgy(bpd6"
+    # SECURITY WARNING: don't run with debug turned on in production!
+    DEBUG = True
+
+    ALLOWED_HOSTS = []
+    # other settings truncated for brevity
