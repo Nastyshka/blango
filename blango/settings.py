@@ -30,6 +30,7 @@ class Dev(Configuration):
         'crispy_forms',
         'crispy_bootstrap5',
         'debug_toolbar',
+        'blango_auth',
         'blog',
     ]
 
@@ -76,6 +77,7 @@ class Dev(Configuration):
         'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
     ]
 
+    AUTH_USER_MODEL = "blango_auth.User"
     # Password validation
     AUTH_PASSWORD_VALIDATORS = [
         {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',},
